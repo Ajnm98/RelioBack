@@ -34,16 +34,16 @@ public class DatosPerfil_Controller {
     }
 
     @PostMapping(value = "/modify/{id}")
-    public Datos_Usuario modifyDatosUsuario(@PathVariable long id,@RequestBody Datos_Usuario datosUsuario) {
+    public void modifyDatosUsuario(@PathVariable long id,@RequestBody Datos_Usuario datosUsuario) {
         Datos_Usuario usuario = datosUsuarioService.getDatosUsuarioById(id);
         Usuario usuario1 = usuarioRepository.findById(id);
         if(usuario!=null){
         datosUsuario.setUsuario(usuario1);
-        return datosUsuarioService.updateDatosUsuario(datosUsuario);
+        datosUsuarioService.updateDatosUsuario(datosUsuario, usuario);
         }
         else{
             datosUsuario.setUsuario(usuario1);
-            return datosUsuarioService.createDatosUsuario(datosUsuario);
+            datosUsuarioService.createDatosUsuario(datosUsuario);
         }
     }
 

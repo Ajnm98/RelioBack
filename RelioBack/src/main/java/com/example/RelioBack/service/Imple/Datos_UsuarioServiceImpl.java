@@ -23,10 +23,32 @@ public class Datos_UsuarioServiceImpl implements Datos_UsuarioService {
     }
 
     @Override
-    public Datos_Usuario updateDatosUsuario(Datos_Usuario datosUsuario) {
+    public void updateDatosUsuario(Datos_Usuario datosUsuario, Datos_Usuario usuario) {
         Datos_Usuario datosUsuario1 = datosUsuario;
-        datosUsuario1.setUsuario(datosUsuario.getUsuario());
-        return datosUsuarioRepository.modifyUsuario(datosUsuario1);
+        if(datosUsuario1.getNombre()==null){
+            datosUsuario1.setNombre(usuario.getNombre());
+        }
+        if(datosUsuario1.getBio()==null){
+            datosUsuario1.setBio(usuario.getBio());
+        }
+        if(datosUsuario1.getPais()==null){
+            datosUsuario1.setPais(usuario.getPais());
+        }
+        if(datosUsuario1.getDireccion()==null){
+            datosUsuario1.setDireccion(usuario.getDireccion());
+        }
+        if(datosUsuario1.getGenero()==null){
+            datosUsuario1.setGenero(usuario.getGenero());
+        }
+        if(datosUsuario1.getUrl_icono()==null){
+            datosUsuario1.setUrl_icono(usuario.getUrl_icono());
+        }
+        if(datosUsuario1.getUrl_banner()==null){
+            datosUsuario1.setUrl_banner(usuario.getUrl_banner());
+        }
+
+         datosUsuarioRepository.modifyUsuario(datosUsuario1.getNombre(), datosUsuario1.getBio(),datosUsuario1.getPais(), datosUsuario1.getDireccion()
+        , datosUsuario1.getGenero(), datosUsuario1.getUrl_icono(), datosUsuario1.getUrl_banner(), datosUsuario1.getUsuario().getId());
 
     }
 

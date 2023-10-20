@@ -9,6 +9,6 @@ public interface Datos_UsuarioService {
 
     Datos_Usuario getDatosUsuarioById(Long id);
 
-    Datos_Usuario updateDatosUsuario(Datos_Usuario datosUsuario);
+    void updateDatosUsuario(Datos_Usuario datosUsuario, Datos_Usuario usuario);
     Datos_Usuario createDatosUsuario(Datos_Usuario datosUsuario);
 }
