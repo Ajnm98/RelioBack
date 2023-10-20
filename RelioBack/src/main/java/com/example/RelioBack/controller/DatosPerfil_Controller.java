@@ -28,7 +28,7 @@ public class DatosPerfil_Controller {
     UsuarioRepository usuarioRepository;
 
 
-    @GetMapping(value = "/buscar/{id}")
+    @GetMapping(value = "/buscarUsuario/{id}")
     public Datos_Usuario getDatosUsuarioById(@PathVariable long id) {
         return datosUsuarioService.getDatosUsuarioById(id);
     }
@@ -44,6 +44,26 @@ public class DatosPerfil_Controller {
         else{
             datosUsuario.setUsuario(usuario1);
             datosUsuarioService.createDatosUsuario(datosUsuario);
+        }
+    }
+
+    @GetMapping(value = "/buscarOcio/{id}")
+    public Datos_Ocio getDatosOcioById(@PathVariable long id) {
+        return datosOcioService.getDatosOcioById(id);
+    }
+
+
+    @PostMapping(value = "/modifyOcio/{id}")
+    public void modifyDatosOcio(@PathVariable long id,@RequestBody Datos_Ocio datosOcio) {
+        Datos_Ocio usuario = datosOcioService.getDatosOcioById(id);
+        Usuario usuario1 = usuarioRepository.findById(id);
+        if(usuario!=null){
+            datosOcio.setUsuario(usuario1);
+            datosOcioService.updateDatosUsuario(datosOcio, usuario);
+        }
+        else{
+            datosOcio.setUsuario(usuario1);
+            datosOcioService.createDatosUsuario(datosOcio);
         }
     }
 

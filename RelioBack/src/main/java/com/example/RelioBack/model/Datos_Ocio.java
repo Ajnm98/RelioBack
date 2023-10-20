@@ -6,6 +6,9 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
+
 @Getter
 @Setter
 @Data
@@ -31,9 +34,12 @@ public class Datos_Ocio {
     @Column(name = "direccion")
     private String direccion;
 
-    @NotBlank
-    @Column(name = "tipo_lugar")
-    private Tipo_Lugar tipo_lugar;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "ocio_tipo",
+            joinColumns = @JoinColumn(name = "ocio_id"),
+            inverseJoinColumns = @JoinColumn(name = "tipo_id"))
+    private Set<Tipo_Lugar> tipo_lugar = new HashSet<>();
 
     @Column(name = "telefono")
     private Integer telefono;
