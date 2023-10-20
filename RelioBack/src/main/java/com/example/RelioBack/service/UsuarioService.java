@@ -11,7 +11,5 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public Usuario crearUsuario(Usuario usuario){
-        return usuarioRepository.save(usuario);
-    }
+
 }
