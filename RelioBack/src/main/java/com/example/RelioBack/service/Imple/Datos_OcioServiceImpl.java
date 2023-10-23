@@ -2,10 +2,14 @@ package com.example.RelioBack.service.Imple;
 
 import com.example.RelioBack.model.Datos_Ocio;
 import com.example.RelioBack.model.Datos_Usuario;
+import com.example.RelioBack.model.Tipo_Lugar;
 import com.example.RelioBack.repository.Datos_OcioRepository;
 import com.example.RelioBack.service.Datos_OcioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class Datos_OcioServiceImpl implements Datos_OcioService {
@@ -48,6 +52,7 @@ public class Datos_OcioServiceImpl implements Datos_OcioService {
 
     @Override
     public Datos_Ocio createDatosUsuario(Datos_Ocio datosUsuario){
+
         return datosOcioRepository.save(datosUsuario);
     }
 

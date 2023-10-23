@@ -1,5 +1,6 @@
 package com.example.RelioBack.controller;
 
+import com.example.RelioBack.model.Datos_Ocio;
 import com.example.RelioBack.model.ERol;
 import com.example.RelioBack.model.Rol;
 import com.example.RelioBack.model.Usuario;
@@ -7,6 +8,7 @@ import com.example.RelioBack.payload.request.LoginRequest;
 import com.example.RelioBack.payload.request.SignUpRequest;
 import com.example.RelioBack.payload.response.JwtResponse;
 import com.example.RelioBack.payload.response.MessageResponse;
+import com.example.RelioBack.repository.Datos_OcioRepository;
 import com.example.RelioBack.repository.RolRepository;
 import com.example.RelioBack.repository.UsuarioRepository;
 import com.example.RelioBack.security.jwt.JwtUtils;
@@ -54,6 +56,8 @@ public class AuthController {
 
     @Autowired
     RolRepository roleRepository;
+    @Autowired
+    Datos_OcioRepository datosOcioRepository;
 
     @Autowired
     PasswordEncoder encoder;
@@ -132,5 +136,17 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
+
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/eliminarUsuarioId/{id}")
+    public ResponseEntity<?> deleteUsuario(@PathVariable Long id) {
+        Usuario usuario = userRepository.findById(id).orElse(null);
+        Datos_Ocio datosOcio = datosOcioRepository.findDatosUsuariosByUsuario_Id(usuario.getId());
+        datosOcioRepository.deleteById(datosOcio.getId());
+        userRepository.deleteById(id);
+
+        return ResponseEntity.ok(new MessageResponse("Borrado con éxito!"));
+
+    }
 
 }
