@@ -5,6 +5,7 @@ import com.example.RelioBack.model.*;
 import com.example.RelioBack.payload.request.Tipo_lugarRequest;
 import com.example.RelioBack.payload.response.MessageResponse;
 import com.example.RelioBack.repository.Datos_OcioRepository;
+import com.example.RelioBack.repository.Datos_UsuarioRepository;
 import com.example.RelioBack.repository.Tipo_LugarRepository;
 import com.example.RelioBack.repository.UsuarioRepository;
 import com.example.RelioBack.service.Datos_OcioService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -40,6 +42,8 @@ public class DatosPerfil_Controller {
     @Autowired
     Datos_OcioRepository datosOcioRepository;
 
+    @Autowired
+    Datos_UsuarioRepository datosUsuarioRepository;
 
     @GetMapping(value = "/buscarUsuario/{id}")
     public Datos_Usuario getDatosUsuarioById(@PathVariable long id) {
@@ -178,6 +182,20 @@ public class DatosPerfil_Controller {
 
         return ResponseEntity.ok(new MessageResponse("Añadido correctamente"));
     }
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/allOcio")
+    public ResponseEntity<?> allOcio() {
+        List<Datos_Ocio> listOcio= datosOcioRepository.findAll();
+        return ResponseEntity.ok(listOcio);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/allUsuarios")
+    public ResponseEntity<?> allUsuarios() {
+        List<Datos_Usuario> listUsuario= datosUsuarioRepository.findAll();
+        return ResponseEntity.ok(listUsuario);
+    }
+
 
 
         }
