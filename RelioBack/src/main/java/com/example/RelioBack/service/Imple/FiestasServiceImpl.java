@@ -27,6 +27,12 @@ public class FiestasServiceImpl implements FiestasService {
         if(fiestas.getUrl_foto()==null){
             fiestas.setUrl_foto(fiestas1.getUrl_foto());
         }
-        fiestasRepository.save(fiestas);
+        if(fiestas.getPrecio()==null){
+            fiestas.setPrecio(fiestas1.getPrecio());
+        }
+        fiestas.setUsuario(fiestas1.getUsuario());
+        fiestasRepository.modifyFiesta(fiestas.getDescripcion(), fiestas.getStart(), fiestas.getEnd(),
+                fiestas.getUrl_foto(),fiestas.getPrecio(),fiestas.getUsuario().getId());
+//        fiestasRepository.save(fiestas);
     }
 }

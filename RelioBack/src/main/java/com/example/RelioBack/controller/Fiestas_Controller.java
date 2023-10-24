@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/fiestas")
 public class Fiestas_Controller {
@@ -44,5 +47,43 @@ public class Fiestas_Controller {
         }catch (Exception e){
             return ResponseEntity.ok(new MessageResponse("Ha habido un error"));
         }
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/eliminarFiesta/{id}")
+    public ResponseEntity<?> deleteFiesta(@PathVariable Long id) {
+        try { fiestasRepository.delete(fiestasRepository.buscarFiesta(id));
+            return ResponseEntity.ok(new MessageResponse("Borrado correctamente"));
+        }catch (Exception e){
+            return ResponseEntity.ok(new MessageResponse("Ha habido un error"));
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/all")
+    public List<Fiestas> allFiesta() {
+        List<Fiestas> listFiestas= fiestasRepository.findAll();
+        return listFiestas;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/myFiestas/{id}")
+    public ResponseEntity<?> myFiestaS(@PathVariable Long id) {
+        List<Fiestas> listFiestas = fiestasRepository.findAllByOcio_id(id);
+        if(listFiestas.isEmpty()){
+            return ResponseEntity.ok(new MessageResponse("No hay fiestas"));
+        }else {
+            return ResponseEntity.ok(listFiestas);
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/allVigente")
+    public ResponseEntity<?> allVigente() {
+        LocalDateTime vigente = LocalDateTime.now();
+        List<Fiestas> listFiestas = fiestasRepository.findFiestasVigentes(vigente);
+        if(listFiestas.isEmpty()){
+            return ResponseEntity.ok(new MessageResponse("No hay fiestas"));
+        }
+        else{
+            return ResponseEntity.ok(listFiestas);
+        }
+
     }
 }

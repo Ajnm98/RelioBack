@@ -30,6 +30,9 @@ public class Fiestas {
     @Column(name = "url_foto")
     private String url_foto;
 
+    @Column(name = "precio")
+    private Double precio;
+
     @OneToOne
     @JoinColumn(name = "ocio_id")
     private Usuario usuario;
@@ -52,5 +55,13 @@ public class Fiestas {
 
     public String getUrl_foto() {
         return url_foto;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public Double getPrecio() {
+        return precio;
     }
 }
