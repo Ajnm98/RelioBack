@@ -45,7 +45,6 @@ public class Relio_Controller {
         relio.setFiestas(fiestas);
         relio.setMax_personas(relioDto.getMax_personas());
 
-
         try{
             relioRepository.save(relio);
             return ResponseEntity.ok(new MessageResponse("Creado correctamente"));
@@ -68,19 +67,39 @@ public class Relio_Controller {
         }else{
             return ResponseEntity.ok(new MessageResponse("No hay sitio suficiente"));
         }
-
-
         try{
             relioRepository.addPerson(relio.getPersonas(),relio.getLleno(), relio.getId());
 //            relioRepository.relio_receptores(relio.getId(), usuario.getId());
             return ResponseEntity.ok(new MessageResponse("Creado correctamente"));
-
         }catch (Exception e){
             return ResponseEntity.ok(new MessageResponse("Ha habido un error"));
         }
-
-
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/modifyHourRelio/{id}")
+    public ResponseEntity<?> modifyHourRelio(@PathVariable long id, @RequestBody RelioDTO fecha_inicio) {
+        Relio relio = relioRepository.findById(id);
+        if(fecha_inicio.getStart().isAfter(LocalDateTime.now())) {
+            relio.setStart(fecha_inicio.getStart());
+        }
+        try{
+            relioRepository.modifyHourRelio(relio.getStart(), relio.getId());
+            return ResponseEntity.ok(new MessageResponse("Modificado correctamente"));
+        }catch (Exception e){
+            return ResponseEntity.ok(new MessageResponse("Ha habido un error"));
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/eliminarRelio/{id}")
+    public ResponseEntity<?> deleteRelio(@PathVariable long id) {
+        try {
+            relioRepository.delete(relioRepository.findById(id));
+            return ResponseEntity.ok(new MessageResponse("Borrado correctamente"));
+        }catch (Exception e){
+            return ResponseEntity.ok(new MessageResponse("Ha habido un error"));
+        }
+    }
+
 
 
 }

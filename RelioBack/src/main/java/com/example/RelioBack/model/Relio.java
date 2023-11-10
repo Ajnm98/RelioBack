@@ -58,4 +58,16 @@ public class Relio {
     @Column(name = "lleno")
     private Integer lleno;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "valoracion",
+            joinColumns = @JoinColumn(name = "relio_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<Usuario> valoracion = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "publicaciones",
+            joinColumns = @JoinColumn(name = "relio_id"),
+            inverseJoinColumns = @JoinColumn(name = "publicacion_id"))
+    private Set<Publicacion> publicaciones_relio = new HashSet<>();
+
 }

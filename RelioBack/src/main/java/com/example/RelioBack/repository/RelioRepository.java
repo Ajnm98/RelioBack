@@ -25,4 +25,10 @@ public interface RelioRepository extends JpaRepository<Relio, Long> {
 
     @Query(value = "insert into relio_receptores(relio_id, user_id) values(:relio_id, :user_id)", nativeQuery = true)
     void relio_receptores(@Param("relio_id") Integer relio_id, @Param("user_id") long user_id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "update relio c set c.fecha_inicio = :fecha_inicio where c.id = :id", nativeQuery = true)
+    void modifyHourRelio(@Param("fecha_inicio") LocalDateTime fecha_inicio, @Param("id") Integer id);
+
 }
