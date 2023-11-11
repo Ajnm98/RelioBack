@@ -52,7 +52,7 @@ public class Publicacion {
     private Set<Usuario> publicacion_etiquetados = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "likes",
+    @JoinTable(name = "likes_publicacion",
             joinColumns = @JoinColumn(name = "publicacion_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<Usuario> likes = new HashSet<>();

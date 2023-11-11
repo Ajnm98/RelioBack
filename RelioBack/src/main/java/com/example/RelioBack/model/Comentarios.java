@@ -35,7 +35,7 @@ public class Comentarios {
     private String texto;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "likes",
+    @JoinTable(name = "likes_comentarios",
             joinColumns = @JoinColumn(name = "comentarios_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<Usuario> likes = new HashSet<>();
