@@ -39,11 +39,11 @@ public class Publicacion {
     @JoinColumn(name = "relio")
     private Relio relio_id;
 
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinTable(name = "comentarios",
-//            joinColumns = @JoinColumn(name = "publicacion_id"),
-//            inverseJoinColumns = @JoinColumn(name = "comentarios_id"))
-//    private Set<Comentarios> comentarios = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "comentarios_publicacion",
+            joinColumns = @JoinColumn(name = "publicacion_id"),
+            inverseJoinColumns = @JoinColumn(name = "comentarios_id"))
+    private Set<Comentarios> comentarios = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "publicacion_etiquetados",

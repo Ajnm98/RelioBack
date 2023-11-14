@@ -133,7 +133,6 @@ public class Publicacion_Controller {
                     publicacion.getLikes().add(usuario);
                     publicacionRepository.save(publicacion);
                 }
-
             }
             return ResponseEntity.ok(new MessageResponse("Modificado correctamente"));
         } catch (Exception e) {

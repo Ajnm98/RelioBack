@@ -22,7 +22,7 @@ public class Comentarios {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @OneToOne
     @JoinColumn(name = "usuario_id_emisor")
