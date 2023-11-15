@@ -39,7 +39,7 @@ public class Publicacion {
     @JoinColumn(name = "fiesta_id")
     private Fiestas fiesta;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "relio")
     private Relio relio_id;
 

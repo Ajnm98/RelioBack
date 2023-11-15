@@ -11,14 +11,17 @@ import com.example.RelioBack.repository.FiestasRepository;
 import com.example.RelioBack.repository.PublicacionRepository;
 import com.example.RelioBack.repository.RelioRepository;
 import com.example.RelioBack.repository.UsuarioRepository;
+import com.github.cliftonlabs.json_simple.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/relio")
@@ -120,6 +123,15 @@ public class Relio_Controller {
         }
     }
 
+
+    @RequestMapping(method = RequestMethod.GET, value = "/all")
+    public JsonObject allRelios() {
+        List<Relio> relios = relioRepository.findAll();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.put("todasRelios",relios.stream().
+                sorted(Comparator.comparing(Relio::getStart)).collect(Collectors.toList()));
+        return jsonObject;
+    }
 
 
 }

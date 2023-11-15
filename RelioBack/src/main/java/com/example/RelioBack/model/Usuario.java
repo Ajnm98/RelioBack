@@ -55,6 +55,7 @@ public class Usuario {
     @JoinTable(name = "user_relios",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "relio_id"))
+    @JsonIgnore
     private Set<Relio> relio = new HashSet<>();
 
     public Usuario() {
