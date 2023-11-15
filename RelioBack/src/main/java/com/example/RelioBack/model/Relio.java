@@ -1,9 +1,11 @@
 package com.example.RelioBack.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -49,7 +51,7 @@ public class Relio {
     @Column(name = "fecha_inicio")
     private LocalDateTime start;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinTable(name = "relio_receptores",
             joinColumns = @JoinColumn(name = "relio_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
@@ -59,10 +61,11 @@ public class Relio {
     private Integer lleno;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "valoracion",
+    @Cascade({ org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.MERGE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @JoinTable(name = "valoracion_relio",
             joinColumns = @JoinColumn(name = "relio_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<Usuario> valoracion = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "valoracion_id"))
+    private Set<Valoracion> valoracion = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "publicaciones",

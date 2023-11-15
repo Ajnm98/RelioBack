@@ -56,6 +56,7 @@ public class Comentarios_Controller {
         Comentarios comentarios = comentariosRepository.findById(id);
         Publicacion publicacion = publicacionRepository.findById(id2);
         publicacion.getComentarios().remove(comentarios);
+//        publicacionRepository.save(publicacion);
         try {
 
             comentariosRepository.delete(comentarios);
