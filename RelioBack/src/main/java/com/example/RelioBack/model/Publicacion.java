@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,6 +28,9 @@ public class Publicacion {
     @Column(name = "descripcion")
     private String descripcion;
 
+    @Column(name = "fecha")
+    private LocalDateTime fecha;
+
     @OneToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
@@ -35,7 +39,7 @@ public class Publicacion {
     @JoinColumn(name = "fiesta_id")
     private Fiestas fiesta;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "relio")
     private Relio relio_id;
 

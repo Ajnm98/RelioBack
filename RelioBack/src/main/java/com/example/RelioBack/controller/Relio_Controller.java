@@ -1,12 +1,14 @@
 package com.example.RelioBack.controller;
 
 import com.example.RelioBack.model.Fiestas;
+import com.example.RelioBack.model.Publicacion;
 import com.example.RelioBack.model.Relio;
 import com.example.RelioBack.model.Usuario;
 import com.example.RelioBack.model.dto.AddPersonDTO;
 import com.example.RelioBack.model.dto.RelioDTO;
 import com.example.RelioBack.payload.response.MessageResponse;
 import com.example.RelioBack.repository.FiestasRepository;
+import com.example.RelioBack.repository.PublicacionRepository;
 import com.example.RelioBack.repository.RelioRepository;
 import com.example.RelioBack.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -29,6 +32,9 @@ public class Relio_Controller {
 
     @Autowired
     FiestasRepository fiestasRepository;
+
+    @Autowired
+    PublicacionRepository publicacionRepository;
     @RequestMapping(method = RequestMethod.POST, value = "/create/{id}")
     public ResponseEntity<?> createRelio(@PathVariable long id, @RequestBody RelioDTO relioDto) {
         Relio relio = new Relio();
@@ -47,6 +53,8 @@ public class Relio_Controller {
 
         try{
             relioRepository.save(relio);
+            usuario.getRelio().add(relio);
+            usuarioRepository.save(usuario);
             return ResponseEntity.ok(new MessageResponse("Creado correctamente"));
 
         }catch (Exception e){
@@ -93,7 +101,19 @@ public class Relio_Controller {
     @RequestMapping(method = RequestMethod.DELETE, value = "/eliminarRelio/{id}")
     public ResponseEntity<?> deleteRelio(@PathVariable long id) {
         try {
-            relioRepository.delete(relioRepository.findById(id));
+            Relio relio = relioRepository.findById(id);
+            Set<Relio> relios = relio.getUsuario_emisor().getRelio();
+            for(Relio r : relios){
+                if(r.getId()==id){
+                    relio.getUsuario_emisor().getRelio().remove(r);
+                }
+                relioRepository.save(relio);
+            }
+            List<Publicacion> publicacions = publicacionRepository.findByIdRelio(id);
+            for(Publicacion p : publicacions){
+                publicacionRepository.delete(p);
+            }
+            relioRepository.delete(relio);
             return ResponseEntity.ok(new MessageResponse("Borrado correctamente"));
         }catch (Exception e){
             return ResponseEntity.ok(new MessageResponse("Ha habido un error"));
