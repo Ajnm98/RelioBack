@@ -2,6 +2,7 @@ package com.example.RelioBack.controller;
 
 
 import com.example.RelioBack.model.*;
+import com.example.RelioBack.model.dto.BuscarUsuarioNuevo;
 import com.example.RelioBack.payload.request.Tipo_lugarRequest;
 import com.example.RelioBack.payload.response.MessageResponse;
 import com.example.RelioBack.repository.Datos_OcioRepository;
@@ -11,6 +12,7 @@ import com.example.RelioBack.repository.UsuarioRepository;
 import com.example.RelioBack.service.Datos_OcioService;
 import com.example.RelioBack.service.Datos_UsuarioService;
 import com.example.RelioBack.service.UsuarioService;
+import com.github.cliftonlabs.json_simple.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -197,9 +199,40 @@ public class DatosPerfil_Controller {
     }
 
 
+    @GetMapping(value = "/buscarUsuarioNuevo/{username}")
+    public JsonObject getDatosUsuarioNuevo(@PathVariable String username) {
+        JsonObject jsonObject = new JsonObject();
 
-        }
+        jsonObject.put("Usuario", usuarioRepository.buscarPorUsername(username));
+        return jsonObject;
+    }
 
 
 
+
+    @GetMapping(value = "/buscarUsuarionombre/{nombre}")
+    public JsonObject buscarUsuario(@PathVariable String nombre) {
+        JsonObject jsonObject = new JsonObject();
+
+
+        List<Datos_Usuario> datosUsuario = datosUsuarioRepository.findByNombreBusqueda(nombre);
+        jsonObject.put("ListaUsuario", datosUsuario);
+
+        return jsonObject;
+
+    }
+
+    @GetMapping(value = "/buscarOcionombre/{nombre}")
+    public JsonObject buscarOcio(@PathVariable String nombre) {
+        JsonObject jsonObject = new JsonObject();
+
+
+        List<Datos_Ocio> datosUsuario = datosOcioRepository.findByNombreBusqueda(nombre);
+        jsonObject.put("ListaUsuario", datosUsuario);
+
+        return jsonObject;
+
+    }
+
+}
 

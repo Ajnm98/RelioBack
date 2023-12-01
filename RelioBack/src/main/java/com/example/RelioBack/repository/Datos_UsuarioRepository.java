@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface Datos_UsuarioRepository extends JpaRepository<Datos_Usuario, Long> {
@@ -25,6 +26,11 @@ public interface Datos_UsuarioRepository extends JpaRepository<Datos_Usuario, Lo
                                 @Param("pais") String pais, @Param("direccion") String direccion,
                                 @Param("genero") String genero, @Param("url_icono") String url_icono, @Param("url_banner") String url_banner,
                                 @Param("id") Long id);
+
+
+    @Query(value = "select * from datos_usuario where nombre LIKE %:usuario%", nativeQuery = true)
+    List<Datos_Usuario> findByNombreBusqueda(String usuario);
+
 
 
 }
