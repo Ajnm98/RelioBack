@@ -86,4 +86,17 @@ public class Fiestas_Controller {
         }
 
     }
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/fiesta/{id}")
+    public ResponseEntity<?> obtainFiesta(@PathVariable Long id) {
+        Fiestas fiestas = fiestasRepository.buscarFiesta(id);
+        if(fiestas==null){
+            return ResponseEntity.ok(new MessageResponse("No existe la fiesta"));
+        }else {
+            return ResponseEntity.ok(fiestas);
+        }
+    }
+
+
 }

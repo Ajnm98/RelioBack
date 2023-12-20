@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public interface RelioRepository extends JpaRepository<Relio, Long> {
@@ -30,5 +31,9 @@ public interface RelioRepository extends JpaRepository<Relio, Long> {
     @Transactional
     @Query(value = "update relio c set c.fecha_inicio = :fecha_inicio where c.id = :id", nativeQuery = true)
     void modifyHourRelio(@Param("fecha_inicio") LocalDateTime fecha_inicio, @Param("id") Integer id);
+
+    @Query(value = "select * from relio where usuario_id_emisor = :relio", nativeQuery = true)
+    List<Relio> findEmisorRelio(long relio);
+
 
 }

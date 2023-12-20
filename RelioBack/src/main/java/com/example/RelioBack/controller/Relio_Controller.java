@@ -17,10 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -131,6 +128,19 @@ public class Relio_Controller {
         jsonObject.put("todasRelios",relios.stream().
                 sorted(Comparator.comparing(Relio::getStart)).collect(Collectors.toList()));
         return jsonObject;
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/misRelios/{id}")
+    public ResponseEntity<?>  misRelios(@PathVariable long id) {
+        Usuario usuario = usuarioRepository.findById(id);
+        List<Relio> listaRelio = new ArrayList<>();
+        List<Relio> listaemisor = relioRepository.findEmisorRelio(id);
+        for(Relio r: listaemisor) {
+            listaRelio.add(r);
+        }
+
+        return ResponseEntity.ok(listaRelio);
     }
 
 
