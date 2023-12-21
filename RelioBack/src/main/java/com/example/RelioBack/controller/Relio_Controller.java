@@ -69,10 +69,14 @@ public class Relio_Controller {
         Usuario usuario= usuarioRepository.findById(addPersonDTO.getUsuario_id());
         usuarios.add(usuario);
         relio.setUsuarios_receptores(usuarios);
-        if(relio.getPersonas()+ addPersonDTO.getPersonas()< relio.getMax_personas()) {
+        if(relio.getPersonas()+ addPersonDTO.getPersonas()<= relio.getMax_personas()) {
             relio.setPersonas(relio.getPersonas() + addPersonDTO.getPersonas());
-            relio.setLleno(1);
+            relio.setLleno(0);
+            if(relio.getPersonas().equals(relio.getMax_personas())) {
+                relio.setLleno(1);
+            }
         }else{
+            relio.setLleno(1);
             return ResponseEntity.ok(new MessageResponse("No hay sitio suficiente"));
         }
         try{
@@ -141,6 +145,14 @@ public class Relio_Controller {
         }
 
         return ResponseEntity.ok(listaRelio);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/relio/{id}")
+    public ResponseEntity<?>  relio(@PathVariable long id) {
+        Usuario usuario = usuarioRepository.findById(id);
+        Relio relio = relioRepository.findById(id);
+
+        return ResponseEntity.ok(relio);
     }
 
 
