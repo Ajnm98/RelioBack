@@ -156,4 +156,50 @@ public class Relio_Controller {
     }
 
 
+    @RequestMapping(method = RequestMethod.GET, value = "/misReliosVigentes/{id}")
+    public ResponseEntity<?>  misReliosVigentes(@PathVariable long id) {
+        Usuario usuario = usuarioRepository.findById(id);
+        List<Relio> listaRelio = new ArrayList<>();
+        List<Relio> listaRelioReceptor = new ArrayList<>();
+        List<Relio> listaemisor = relioRepository.findEmisorRelioVigente(id);
+        List<Integer> listaid = relioRepository.findIntRelio(id);
+        if(listaid!=null) {
+            for (Integer i : listaid) {
+                Relio relio = relioRepository.findReceptorRelioVigente(i);
+                if (relio != null) {
+                    listaRelioReceptor.add(relio);
+                }
+            }
+        }
+        listaRelio.addAll(listaemisor);
+        listaRelio.addAll(listaRelioReceptor);
+        listaRelio.sort(Comparator.comparing(Relio::getStart));
+
+        return ResponseEntity.ok(listaRelio);
+    }
+
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/misReliosNoVigentes/{id}")
+    public ResponseEntity<?>  misReliosNoVigentes(@PathVariable long id) {
+        Usuario usuario = usuarioRepository.findById(id);
+        List<Relio> listaRelio = new ArrayList<>();
+        List<Relio> listaRelioReceptor = new ArrayList<>();
+        List<Relio> listaemisor = relioRepository.findEmisorRelioNoVigente(id);
+        List<Integer> listaid = relioRepository.findIntRelio(id);
+        if(listaid!=null) {
+            for (Integer i : listaid) {
+                Relio relio = relioRepository.findReceptorRelioNoVigente(i);
+                if (relio != null) {
+                    listaRelioReceptor.add(relio);
+                }
+            }
+        }
+        listaRelio.addAll(listaemisor);
+        listaRelio.addAll(listaRelioReceptor);
+        listaRelio.sort(Comparator.comparing(Relio::getStart).reversed());
+
+        return ResponseEntity.ok(listaRelio);
+    }
+
 }

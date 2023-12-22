@@ -35,5 +35,19 @@ public interface RelioRepository extends JpaRepository<Relio, Long> {
     @Query(value = "select * from relio where usuario_id_emisor = :relio", nativeQuery = true)
     List<Relio> findEmisorRelio(long relio);
 
+    @Query(value = "select * from relio where usuario_id_emisor = :relio && fecha_inicio >= DATE(NOW())", nativeQuery = true)
+    List<Relio> findEmisorRelioVigente(long relio);
 
+    @Query(value = "select relio_id from relio_receptores where user_id = :relio", nativeQuery = true)
+    List<Integer> findIntRelio(long relio);
+
+    @Query(value = "select * from relio where id = 18 && fecha_inicio >= DATE(NOW())", nativeQuery = true)
+    Relio findReceptorRelioVigente(long relio);
+
+
+    @Query(value = "select * from relio where usuario_id_emisor = :relio && fecha_inicio < DATE(NOW())", nativeQuery = true)
+    List<Relio> findEmisorRelioNoVigente(long relio);
+
+    @Query(value = "select * from relio where id = 18 && fecha_inicio < DATE(NOW())", nativeQuery = true)
+    Relio findReceptorRelioNoVigente(long relio);
 }
