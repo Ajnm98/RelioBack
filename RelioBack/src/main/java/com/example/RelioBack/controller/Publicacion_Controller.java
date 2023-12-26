@@ -195,5 +195,18 @@ public class Publicacion_Controller {
         return jsonObject;
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "boolLike/{id}/{id_usuario}")
+    public Boolean booleanDeLike(@PathVariable long id, @PathVariable Integer id_usuario) {
+        Boolean bol = false;
+        List<Integer> lista = publicacionRepository.existelike(id);
+        for(Integer i : lista){
+            if(i.equals(id_usuario)){
+                bol=true;
+                break;
+            }
+        }
+        return bol;
+    }
+
 
     }

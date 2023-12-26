@@ -36,4 +36,7 @@ public interface PublicacionRepository extends JpaRepository<Publicacion, Long> 
     @Query(value = "DELETE from publicacion where id = :id", nativeQuery = true)
     void deleteById1(long id);
 
+    @Query(value = "select user_id from likes_publicacion where publicacion_id = :id", nativeQuery = true)
+    List<Integer> existelike(long id);
+
 }
